@@ -1,0 +1,10 @@
+# Created by https://www.gitignore.io/api/terraform
+
+### Terraform ###
+# Compiled files
+*.tfstate
+*.tfstate.backup
+*.plan
+secret.tf
+
+# End of https://www.gitignore.io/api/terraform

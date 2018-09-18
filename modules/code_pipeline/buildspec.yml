@@ -1,0 +1,45 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Entering install phase...
+      - apt-get update -y
+      - apt-get install -y python-software-properties debconf-utils software-properties-common
+      - add-apt-repository ppa:webupd8team/java -y
+      - echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+      - apt-get update -y
+      - apt-get install -y oracle-java8-installer oracle-java8-set-default
+      - wget http://mirror.nbtelecom.com.br/apache/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+      - tar xzvf apache-maven-3.5.4-bin.tar.gz -C /opt/
+      - export PATH=/opt/apache-maven-3.5.4/bin:$PATH
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --region ${region} --no-include-email)
+      - REPOSITORY_URI=${repository_url}
+      - IMAGE_TAG=$(echo $(date +%Y%m%d)-$(date +%H%M))
+      - echo Entered the pre_build phase...
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - REPOSITORY_URI=${repository_url}
+      - IMAGE_TAG=$(echo $(date +%Y%m%d)-$(date +%H%M))
+      - echo $REPOSITORY_URI
+      - echo $IMAGE_TAG
+      - java -version
+      - mvn -v
+      - mvn clean install
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"${app_name}","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
