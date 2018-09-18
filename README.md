@@ -17,8 +17,10 @@ We have 2 variables to set, they are:
   - `app-name    = "event-checker"`
 
 Those variables are in this file:
+```
 .
 ├── terraform.tfvars
+```
 
 :shipit: `region`   = You can choose the AWS region to deploy your environment
 
