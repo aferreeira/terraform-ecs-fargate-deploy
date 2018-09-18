@@ -23,6 +23,7 @@ Those variables are in this file:
 ```
 
 :shipit: `region   = You can choose the AWS region to deploy your environment`
+
 :shipit: `app-name = You need to set the repo name of your application`
 
 
