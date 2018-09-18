@@ -201,7 +201,7 @@ data "aws_ecs_task_definition" "app" {
 resource "aws_ecs_service" "app" {
   name            = "${var.repository_name}-svc"
   task_definition = "${aws_ecs_task_definition.app.family}:${max("${aws_ecs_task_definition.app.revision}", "${data.aws_ecs_task_definition.app.revision}")}"
-  desired_count   = 2
+  desired_count   = 1
   launch_type     = "FARGATE"
   cluster         = "${aws_ecs_cluster.cluster.id}"
   depends_on      = ["aws_iam_role_policy.ecs-service-role-policy", "aws_alb_target_group.alb-target-group", "aws_ecs_task_definition.app"]
