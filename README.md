@@ -22,9 +22,9 @@ Those variables are in this file:
 ├── terraform.tfvars
 ```
 
-:shipit: `region`   = You can choose the AWS region to deploy your environment
+:shipit: `region`   = "us-east-1" //You can choose the AWS region to deploy your environment
 
-:shipit: `app-name` = You need to set the repo name of your application
+:shipit: `app-name` = "event-checker" //You need to set the repo name of your application
 
 ## set workspace for stage environment
 ```bash
