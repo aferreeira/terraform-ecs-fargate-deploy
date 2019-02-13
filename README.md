@@ -9,9 +9,6 @@ It's a project created to deploy an ECS Cluster and create a service, tasks, cod
   - The name of your cluster and the whole infrastructure will be based on terraform.workspace your are using.
   - The first thing you'll have to do is set 2 variables on project and create your workspace based on you environment
 
-
-
-
 ## set vars
 
 We have 2 variables to set, they are:
